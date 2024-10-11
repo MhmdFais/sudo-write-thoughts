@@ -13,3 +13,42 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+model User {
+  id            Int           @id @default(autoincrement())
+  email         String        @unique
+  firstName     String?
+  lastName      String?
+  password      String
+  blogs         Blog[]        @relation("OwnerPosts")
+  publiseds     Published[]   @relation("PublishedOwner")
+  unpublisheds  Unpublished[] @relation("UnpublishedOwner")
+}
+
+model Blog {
+  id            Int            @id @default(autoincrement())
+  owner         User           @relation("OwnerPosts", fields: [ownerId], references: [id])
+  ownerId       Int
+  publisheds    Published[]    @relation("BlogConnection")
+  unpublisheds  Unpublished[]  @relation("BlogConnection")
+}
+
+model Published {
+  id        Int           @id @default(autoincrement())
+  title     String
+  content   String
+  owner     User          @relation("PublishedOwner", fields: [ownerId], references: [id])
+  ownerId   Int
+  blog      Blog          @relation("BlogConnection", fields: [blogId], references: [id])
+  blogId    Int
+}
+
+model Unpublished {
+  id        Int           @id @default(autoincrement())
+  title     String
+  content   String
+  owner     User          @relation("UnpublishedOwner", fields: [ownerId], references: [id])
+  ownerId   Int
+  blog      Blog          @relation("BlogConnection", fields: [blogId], references: [id])
+  blogId    Int
+}
