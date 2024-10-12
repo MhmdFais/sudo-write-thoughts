@@ -7,7 +7,7 @@ const passport = require("passport");
 const loginRoute = require("./routes/loginRoute");
 const logOutRoute = require("./routes/logoutRoute");
 const refreshTokenRoute = require("./routes/refreshTokenRoute");
-const setupPassport = require("./config/passport");
+const { setupPassport } = require("./config/passport");
 
 const prisma = new PrismaClient();
 const app = express();
