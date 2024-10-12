@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const session = require("express-session");
 const { PrismaClient } = require("@prisma/client");
 const passport = require("passport");
 const cors = require("cors");
@@ -10,6 +9,7 @@ const logOutRoute = require("./routes/logoutRoute");
 const refreshTokenRoute = require("./routes/refreshTokenRoute");
 const homeRoute = require("./routes/homeRoute");
 const { setupPassport } = require("./config/passport");
+const registerRoute = require("./routes/registerRoute");
 
 const prisma = new PrismaClient();
 const app = express();
@@ -32,6 +32,7 @@ app.use("/logout", logOutRoute);
 app.use("/refresh-token", refreshTokenRoute);
 
 app.use("/", homeRoute);
+app.use("/register", registerRoute);
 
 const PORT = process.env.PORT || 3000;
 
