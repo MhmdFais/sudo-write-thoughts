@@ -3,6 +3,9 @@ const prisma = require("../prismaClient");
 const getAllPosts = async (req, res) => {
   try {
     const posts = await prisma.post.findMany({
+      where: {
+        published: true, // This line filters for published posts only
+      },
       include: {
         author: {
           select: {
@@ -32,7 +35,7 @@ const getAllPosts = async (req, res) => {
       comments: post.comments.map((comment) => ({
         id: comment.id,
         content: comment.content,
-        author: isAuthenticated ? comment.author.username : "Anonymous",
+        author: isAuthenticated ? comment.user.username : "Anonymous",
         createdAt: comment.createdAt,
       })),
     }));
