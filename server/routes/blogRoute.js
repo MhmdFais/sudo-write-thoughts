@@ -3,6 +3,7 @@ const {
   getABlogWithComments,
   postComment,
 } = require("../controllers/blogController");
+const passport = require("passport");
 
 blogRoute = express.Router();
 

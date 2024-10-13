@@ -8,7 +8,7 @@ const loginRoute = require("./routes/loginRoute");
 const logOutRoute = require("./routes/logoutRoute");
 const refreshTokenRoute = require("./routes/refreshTokenRoute");
 const homeRoute = require("./routes/homeRoute");
-const { setupPassport } = require("./config/passport");
+const setupPassport = require("./config/passport");
 const registerRoute = require("./routes/registerRoute");
 const blogRoute = require("./routes/blogRoute");
 
