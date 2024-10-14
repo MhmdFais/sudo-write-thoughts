@@ -1,23 +1,25 @@
+import { Link } from "react-router-dom";
+
 function AppBar() {
   return (
     <div className="flex justify-between items-center">
       <div className="left text-white font-bold text-4xl">
-        <p>
+        <Link to="/">
           <span className="text-yellow-300">$</span> sudo write{" "}
           <span className="text-yellow-300">{"{"}</span>thoughts
           <span className="text-yellow-300">{"}"}</span>
-        </p>
+        </Link>
       </div>
       <div className="right text-white font-bold text-2xl flex justify-around items-center gap-6">
-        <a>
-          <img src="/icons/profile.png" alt="Login" className="h-7 mr-2" />
-        </a>
-        <a>
-          <img src="/icons/log-in.png" alt="Login" className="h-7 mr-2" />
-        </a>
-        <a>
-          <img src="/icons/log-out.png" alt="Login" className="h-7 mr-2" />
-        </a>
+        <Link to="/">
+          <img src="/icons/profile.png" alt="Profile" className="h-7" />
+        </Link>
+        <Link to="/login">
+          <img src="/icons/log-in.png" alt="Login" className="h-7" />
+        </Link>
+        <Link to="/">
+          <img src="/icons/log-out.png" alt="Logout" className="h-7" />
+        </Link>
       </div>
     </div>
   );
