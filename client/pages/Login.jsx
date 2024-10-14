@@ -1,6 +1,33 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const API_URL = import.meta.env.REACT_APP_API_URL;
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post(`${API_URL}/login`, {
+        email,
+        password,
+      });
+
+      const { accessToken, refreshToken } = response.data;
+
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+
+      navigate("/");
+    } catch (error) {
+      console.error("Error logging in:", error.response?.data || error.message);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <div className="text-white font-bold text-4xl mb-2 text-center">
@@ -12,7 +39,10 @@ function Login() {
         Where Thoughts Become Commands
       </div>
       <div className="login-form w-full max-w-md">
-        <form className="bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form
+          className="bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          onSubmit={handleSubmit}
+        >
           <div className="mb-4">
             <label
               className="block text-gray-300 text-2xl font-bold mb-2"
@@ -25,6 +55,9 @@ function Login() {
               type="email"
               id="email"
               placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           <div className="mb-6">
@@ -39,6 +72,9 @@ function Login() {
               type="password"
               id="password"
               placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
           <div className="flex items-center justify-between">
