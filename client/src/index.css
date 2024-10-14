@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "mainFontNormal";
+  src: url(/fonts/ZillaSlab-Medium.ttf);
+}
+
+body {
+  background-color: #082f49;
+  font-family: "mainFontNormal";
+}
