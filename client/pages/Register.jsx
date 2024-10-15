@@ -6,6 +6,7 @@ function Register() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isAuthor, setIsAuthor] = useState(false);
   const navigate = useNavigate();
 
   const API_URL = import.meta.env.REACT_APP_API_URL;
@@ -17,14 +18,12 @@ function Register() {
         email,
         username,
         password,
+        isAuthor,
       });
 
       const data = response.data;
-      const message = response.message;
 
-      console.log("Reistered user :", data);
-      console.log("Message", message);
-
+      console.log("Registered user:", data);
       navigate("/login");
     } catch (error) {
       console.error(
@@ -50,12 +49,12 @@ function Register() {
           onSubmit={handleSubmit}
         >
           <div className="mb-4">
-            <labe
+            <label
               htmlFor="email"
               className="block text-gray-300 text-2xl font-bold mb-2"
             >
               Email
-            </labe>
+            </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xl"
               type="email"
@@ -63,15 +62,17 @@ function Register() {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
+
           <div className="mb-4">
-            <labe
+            <label
               htmlFor="username"
               className="block text-gray-300 text-2xl font-bold mb-2"
             >
               Username
-            </labe>
+            </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xl"
               type="text"
@@ -79,15 +80,17 @@ function Register() {
               placeholder="Enter your username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              required
             />
           </div>
+
           <div className="mb-6">
-            <labe
+            <label
               htmlFor="password"
               className="block text-gray-300 text-2xl font-bold mb-2"
             >
               Password
-            </labe>
+            </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xl"
               type="password"
@@ -95,8 +98,26 @@ function Register() {
               placeholder="Enter a password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
+
+          <div className="mb-6 flex items-center">
+            <label
+              htmlFor="isAuthor"
+              className="text-2xl text-gray-300 ml-2 mr-4"
+            >
+              Want to Write?
+            </label>
+            <input
+              type="checkbox"
+              id="isAuthor"
+              checked={isAuthor}
+              onChange={() => setIsAuthor((prev) => !prev)}
+              className="w-6 h-6"
+            />
+          </div>
+
           <div className="flex items-center justify-between">
             <button
               className="bg-yellow-300 hover:bg-yellow-400 w-full text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-2xl"
