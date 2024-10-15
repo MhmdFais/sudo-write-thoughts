@@ -41,7 +41,7 @@ const login = async (req, res) => {
       },
     });
 
-    res.json({ accessToken, refreshToken });
+    res.json({ accessToken, refreshToken, isAuthor: user.isAuthor });
   } catch (error) {
     console.log("Login error: ", error);
     res.status(500).json({ message: "Server error" });

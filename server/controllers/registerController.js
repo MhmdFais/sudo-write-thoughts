@@ -27,10 +27,10 @@ const registerUser = async (req, res) => {
 
     const newUser = await prisma.user.create({
       data: {
-        email: email,
-        username: username,
+        email: req.body.email,
+        username: req.body.username,
         password: hashPassword,
-        isAuthor: !!isAuthor,
+        isAuthor: req.body.isAuthor,
       },
     });
 
