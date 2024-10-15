@@ -11,6 +11,7 @@ const homeRoute = require("./routes/homeRoute");
 const setupPassport = require("./config/passport");
 const registerRoute = require("./routes/registerRoute");
 const blogRoute = require("./routes/blogRoute");
+const adminRoute = require("./routes/adminRoute");
 
 const prisma = new PrismaClient();
 const app = express();
@@ -35,6 +36,8 @@ app.use("/", homeRoute);
 app.use("/register", registerRoute);
 
 app.use("/post/:id", blogRoute);
+
+app.use("/admin", adminRoute);
 
 const PORT = process.env.PORT || 3000;
 
