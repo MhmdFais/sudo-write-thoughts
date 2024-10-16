@@ -4,6 +4,7 @@ const {
   postComment,
 } = require("../controllers/blogController");
 const passport = require("passport");
+const attachUser = require("../config/auth");
 
 blogRoute = express.Router();
 
@@ -24,6 +25,7 @@ blogRoute.get(
 blogRoute.post(
   "/comment",
   passport.authenticate("jwt", { session: false }),
+  attachUser,
   postComment
 );
 
