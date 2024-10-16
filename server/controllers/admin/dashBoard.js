@@ -24,6 +24,25 @@ const getBlogs = async (req, res) => {
   }
 };
 
+const postBlogs = async (req, res) => {
+  const { title, content, isPublished } = req.body;
+  try {
+    const newPost = await prisma.post.create({
+      data: {
+        title: title,
+        content: content,
+        published: !isPublished,
+        authorId: req.user.id,
+      },
+    });
+
+    res.status(201).json(newPost);
+  } catch (error) {
+    console.log("Error creating new post:", error);
+    res.status(500).json({ message: "Error creating new post" });
+  }
+};
+
 const getFilteredBlogs = (publishedStatus) => {
   return allBlogsArray.filter((post) => post.published === publishedStatus);
 };
@@ -31,4 +50,5 @@ const getFilteredBlogs = (publishedStatus) => {
 module.exports = {
   getBlogs,
   getFilteredBlogs,
+  postBlogs,
 };

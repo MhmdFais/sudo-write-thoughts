@@ -50,7 +50,7 @@ function AppBar() {
         {isLoggedIn ? (
           <>
             {isAuthor && (
-              <Link to="/admin" className="flex items-center gap-2">
+              <Link to="/admin/articles" className="flex items-center gap-2">
                 <img src="/icons/profile.png" alt="Admin" className="h-7" />
                 <span>Admin</span>
               </Link>

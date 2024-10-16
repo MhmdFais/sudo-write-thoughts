@@ -12,7 +12,10 @@ function AdminDash() {
             <span className="text-yellow-300">{"}"}</span>
           </NavLink>
         </div>
-        <NavLink className="text-yellow-300 font-bold text-4xl" to="/admin">
+        <NavLink
+          className="text-yellow-300 font-bold text-4xl"
+          to="/admin/articles"
+        >
           Admin Board
         </NavLink>
       </div>
