@@ -15,7 +15,7 @@ blogRoute.get(
       if (err) {
         return next(err);
       }
-      req.user = user; // Attach user to request if authenticated
+      req.user = user;
       next();
     })(req, res, next);
   },
