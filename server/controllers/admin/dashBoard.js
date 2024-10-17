@@ -50,6 +50,11 @@ const getBlogs = async (req, res) => {
 
 const postBlogs = async (req, res) => {
   const { title, content, isPublished } = req.body;
+
+  if (!req.user || !req.user.id) {
+    return res.status(401).json({ message: "User not authenticated" });
+  }
+
   try {
     const newPost = await prisma.post.create({
       data: {
@@ -60,9 +65,10 @@ const postBlogs = async (req, res) => {
       },
     });
 
+    console.log("New post created:", newPost.id);
     res.status(201).json(newPost);
   } catch (error) {
-    console.log("Error creating new post:", error);
+    console.error("Error creating new post:", error);
     res.status(500).json({ message: "Error creating new post" });
   }
 };

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../../axios";
 
 function CreateArticle() {
   const [title, setTitle] = useState("");
@@ -9,16 +9,16 @@ function CreateArticle() {
   const navigate = useNavigate();
 
   const API_KEY = import.meta.env.VITE_MCE_API_KEY;
-  const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
+  // const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
-  const handleEditorChange = (content, editor) => {
+  const handleEditorChange = (content) => {
     setContent(content);
   };
 
   const handleClick = async (e, isPublished) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_URL}/admin/create`, {
+      await api.post("/admin/create", {
         title,
         content,
         isPublished,

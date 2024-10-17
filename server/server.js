@@ -25,8 +25,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-setupPassport(passport);
 app.use(passport.initialize());
+setupPassport(passport);
 
 app.use("/login", loginRoute);
 app.use("/logout", logOutRoute);
