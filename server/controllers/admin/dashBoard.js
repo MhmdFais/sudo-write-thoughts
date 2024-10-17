@@ -1,7 +1,5 @@
 const prisma = require("../../prismaClient");
 
-let allBlogsArray = [];
-
 const getBlogs = async (req, res) => {
   try {
     const blogPosts = await prisma.post.findMany({
@@ -57,7 +55,7 @@ const postBlogs = async (req, res) => {
       data: {
         title: title,
         content: content,
-        published: !isPublished,
+        published: isPublished,
         authorId: req.user.id,
       },
     });
