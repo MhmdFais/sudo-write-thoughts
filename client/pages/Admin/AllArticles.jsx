@@ -94,19 +94,31 @@ function AllArticles() {
           className="bg-slate-300 shadow-lg hover:shadow-xl transition-shadow duration-300 p-4 rounded-lg cursor-pointer"
           onClick={() => console.log("Card clicked", post.id)}
         >
-          <div className="flex justify-between items-center mb-2">
+          <div className="flex justify-between items-start mb-2">
             <p className="font-bold text-3xl">{post.title}</p>
-            <p className="text-lg text-gray-500">
-              {new Date(post.createdAt).toLocaleDateString()}
-              {" , "}
-              {new Date(post.createdAt).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </p>
+            {/* Published/Unpublished tag */}
+            <span
+              className={`inline-block px-2 py-1 text-sm font-semibold rounded-md ${
+                post.published
+                  ? "bg-green-200 text-green-800"
+                  : "bg-red-200 text-red-800"
+              }`}
+            >
+              {post.published ? "Published" : "Unpublished"}
+            </span>
           </div>
-          <p className="text-2xl text-gray-700">
+
+          <p className="text-xl text-gray-700 mb-2">
             Comments: {post.comments.length}
+          </p>
+
+          <p className="text-lg text-gray-500">
+            Created at: {new Date(post.createdAt).toLocaleDateString()}
+            {" , "}
+            {new Date(post.createdAt).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
           </p>
         </div>
       ))}
