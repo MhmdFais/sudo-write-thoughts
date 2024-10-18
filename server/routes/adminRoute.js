@@ -5,6 +5,7 @@ const {
   postBlogs,
   changePublishStatus,
   changeUnPublishStatus,
+  deletePost,
 } = require("../controllers/admin/dashBoard");
 const attachUser = require("../config/auth");
 
@@ -17,5 +18,7 @@ adminRoute.post("/create", attachUser, postBlogs);
 
 adminRoute.patch("/posts/:postId/unpublish", attachUser, changePublishStatus);
 adminRoute.patch("/posts/:postId/publish", attachUser, changeUnPublishStatus);
+
+adminRoute.delete("/posts/:postId/delete", attachUser, deletePost);
 
 module.exports = adminRoute;

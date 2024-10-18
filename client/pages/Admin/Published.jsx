@@ -26,7 +26,8 @@ function Published() {
     }
   };
 
-  const handleUnpublish = async (postId) => {
+  const handleUnpublish = async (postId, event) => {
+    event.stopPropagation();
     try {
       await api.patch(`/admin/posts/${postId}/unpublish`);
       fetchAllPosts(); // Refresh the posts after unpublishing
@@ -46,7 +47,11 @@ function Published() {
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post) => (
-          <div key={post.id} className="bg-slate-300 shadow-lg rounded-lg p-6">
+          <div
+            key={post.id}
+            className="bg-slate-300 shadow-lg rounded-lg p-6 cursor-pointer"
+            onClick={() => console.log("Card clicked", post.id)}
+          >
             <h2 className="text-3xl font-semibold mb-2">{post.title}</h2>
             <p className="text-lg text-gray-500 mb-4">
               Created at: {new Date(post.createdAt).toLocaleDateString()}
@@ -62,7 +67,7 @@ function Published() {
             {/* Unpublish Button */}
             <button
               className="mt-4 px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 transition duration-300"
-              onClick={() => handleUnpublish(post.id)}
+              onClick={(e) => handleUnpublish(post.id, e)}
             >
               Unpublish
             </button>

@@ -169,10 +169,45 @@ const changeUnPublishStatus = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  try {
+    const postId = parseInt(req.params.postId);
+
+    // Delete comments post with cmments, All fail or pass
+    const deletePostWithComments = await prisma.$transaction(async (prisma) => {
+      await prisma.comment.deleteMany({
+        where: {
+          postId: postId,
+        },
+      });
+
+      // Delete the post itself
+      const deletedPost = await prisma.post.delete({
+        where: {
+          id: postId,
+        },
+      });
+
+      return deletedPost;
+    });
+
+    res
+      .status(200)
+      .json({
+        message: "Post and associated comments deleted successfully",
+        deletedPost: deletePostWithComments,
+      });
+  } catch (error) {
+    console.error("Error deleting post:", error);
+    res.status(500).json({ message: "Failed to delete post and comments" });
+  }
+};
+
 module.exports = {
   getBlogs,
   getFilteredBlogs,
   postBlogs,
   changePublishStatus,
   changeUnPublishStatus,
+  deletePost,
 };

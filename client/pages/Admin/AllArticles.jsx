@@ -83,6 +83,20 @@ function AllArticles() {
     }
   };
 
+  const handleDelete = async (postId, event) => {
+    event.stopPropagation(); // Prevent the card click event from firing
+    try {
+      await api.delete(`/admin/posts/${postId}/delete`);
+      fetchAllPosts(); // Refresh the posts after deleting
+    } catch (error) {
+      console.error(
+        "Error deleting post:",
+        error.response?.data || error.message
+      );
+      setError("Failed to delete the post.");
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
@@ -96,7 +110,6 @@ function AllArticles() {
         >
           <div className="flex justify-between items-start mb-2">
             <p className="font-bold text-3xl">{post.title}</p>
-            {/* Published/Unpublished tag */}
             <span
               className={`inline-block px-2 py-1 text-sm font-semibold rounded-md ${
                 post.published
@@ -107,11 +120,9 @@ function AllArticles() {
               {post.published ? "Published" : "Unpublished"}
             </span>
           </div>
-
           <p className="text-xl text-gray-700 mb-2">
             Comments: {post.comments.length}
           </p>
-
           <p className="text-lg text-gray-500">
             Created at: {new Date(post.createdAt).toLocaleDateString()}
             {" , "}
@@ -120,6 +131,12 @@ function AllArticles() {
               minute: "2-digit",
             })}
           </p>
+          <button
+            className="mt-4 px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 transition duration-300"
+            onClick={(e) => handleDelete(post.id, e)}
+          >
+            Delete
+          </button>
         </div>
       ))}
     </div>
