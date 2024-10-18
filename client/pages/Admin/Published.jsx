@@ -26,30 +26,49 @@ function Published() {
     }
   };
 
+  const handleUnpublish = async (postId) => {
+    try {
+      await api.patch(`/admin/posts/${postId}/unpublish`);
+      fetchAllPosts(); // Refresh the posts after unpublishing
+    } catch (error) {
+      console.error(
+        "Error unpublishing post:",
+        error.response?.data || error.message
+      );
+      setError("Failed to unpublish the post.");
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
   return (
-    <div>
-      <h1>Published Posts</h1>
-      {posts.map((post) => (
-        <div key={post.id}>
-          <h2>{post.title}</h2>
-          <p>Author: {post.author}</p>
-          <p>Created at: {new Date(post.createdAt).toLocaleString()}</p>
-          <div dangerouslySetInnerHTML={{ __html: post.content }} />
-          <h3>Comments ({post.comments.length})</h3>
-          {post.comments.map((comment) => (
-            <div key={comment.id}>
-              <p>{comment.content}</p>
-              <p>
-                By: {comment.author} at{" "}
-                {new Date(comment.createdAt).toLocaleString()}
-              </p>
-            </div>
-          ))}
-        </div>
-      ))}
+    <div className="container mx-auto p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.map((post) => (
+          <div key={post.id} className="bg-slate-300 shadow-lg rounded-lg p-6">
+            <h2 className="text-3xl font-semibold mb-2">{post.title}</h2>
+            <p className="text-lg text-gray-500 mb-4">
+              Created at: {new Date(post.createdAt).toLocaleDateString()}
+              {" , "}
+              {new Date(post.createdAt).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </p>
+            <h3 className="text-2xl font-semibold mb-2">
+              Comments ({post.comments.length})
+            </h3>
+            {/* Unpublish Button */}
+            <button
+              className="mt-4 px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 transition duration-300"
+              onClick={() => handleUnpublish(post.id)}
+            >
+              Unpublish
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

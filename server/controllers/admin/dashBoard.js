@@ -133,8 +133,46 @@ const getFilteredBlogs = async (req, res) => {
   }
 };
 
+const changePublishStatus = async (req, res) => {
+  try {
+    const post = await prisma.post.update({
+      where: {
+        id: parseInt(req.params.postId),
+      },
+      data: {
+        published: false,
+      },
+    });
+
+    res.status(200).json({ message: "Post unpublished successfully", post });
+  } catch (error) {
+    console.error("Error unpublishing post:", error);
+    res.status(500).json({ message: "Failed to unpublish post" });
+  }
+};
+
+const changeUnPublishStatus = async (req, res) => {
+  try {
+    const post = await prisma.post.update({
+      where: {
+        id: parseInt(req.params.postId),
+      },
+      data: {
+        published: true,
+      },
+    });
+
+    res.status(200).json({ message: "Post published successfully", post });
+  } catch (error) {
+    console.error("Error publishing post:", error);
+    res.status(500).json({ message: "Failed to publish post" });
+  }
+};
+
 module.exports = {
   getBlogs,
   getFilteredBlogs,
   postBlogs,
+  changePublishStatus,
+  changeUnPublishStatus,
 };
