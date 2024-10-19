@@ -43,6 +43,8 @@ const getAllPosts = async (req, res) => {
       })),
     }));
 
+    console.log(allPosts);
+
     res.json({
       posts: allPosts,
       isAuthenticated: isAuthenticated,
