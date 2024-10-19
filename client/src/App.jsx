@@ -8,6 +8,7 @@ import AllArticles from "../pages/Admin/AllArticles";
 import CreateArticle from "../pages/Admin/CreateArticle";
 import Published from "../pages/Admin/Published";
 import Unpublished from "../pages/Admin/Unpublished";
+import EditBlogs from "../pages/Admin/EditBlogs";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="unpublished" element={<Unpublished />} />
             <Route path="create" element={<CreateArticle />} />
           </Route>
+          <Route path="/admin/post/:id" element={<EditBlogs />} />
         </Routes>
       </Router>
     </div>

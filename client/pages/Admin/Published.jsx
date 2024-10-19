@@ -1,10 +1,12 @@
 import api from "../../axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Published() {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchAllPosts();
@@ -40,8 +42,22 @@ function Published() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  const handleDivCick = (post) => {
+    navigate(`/admin/post/${post.id}`, { state: { post } });
+  };
+
+  if (loading)
+    return (
+      <div className="container mx-auto p-4 text-2xl text-gray-400">
+        Loading...
+      </div>
+    );
+  if (error)
+    return (
+      <div className="container mx-auto p-4 text-2xl text-gray-400">
+        {error}
+      </div>
+    );
 
   return (
     <div className="container mx-auto p-4">
@@ -50,7 +66,7 @@ function Published() {
           <div
             key={post.id}
             className="bg-slate-300 shadow-lg rounded-lg p-6 cursor-pointer"
-            onClick={() => console.log("Card clicked", post.id)}
+            onClick={() => handleDivCick(post)}
           >
             <h2 className="text-3xl font-semibold mb-2">{post.title}</h2>
             <p className="text-lg text-gray-500 mb-4">

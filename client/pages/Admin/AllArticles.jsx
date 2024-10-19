@@ -57,11 +57,13 @@
 
 import api from "../../axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function AllArticles() {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchAllPosts();
@@ -97,48 +99,64 @@ function AllArticles() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  const handleDivCick = (post) => {
+    navigate(`/admin/post/${post.id}`, { state: { post } });
+  };
+
+  if (loading)
+    return (
+      <div className="container mx-auto p-4 text-2xl text-gray-400">
+        Loading...
+      </div>
+    );
+  if (error)
+    return (
+      <div className="container mx-auto p-4 text-2xl text-gray-400">
+        {error}
+      </div>
+    );
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-      {posts.map((post) => (
-        <div
-          key={post.id}
-          className="bg-slate-300 shadow-lg hover:shadow-xl transition-shadow duration-300 p-4 rounded-lg cursor-pointer"
-          onClick={() => console.log("Card clicked", post.id)}
-        >
-          <div className="flex justify-between items-start mb-2">
-            <p className="font-bold text-3xl">{post.title}</p>
-            <span
-              className={`inline-block px-2 py-1 text-sm font-semibold rounded-md ${
-                post.published
-                  ? "bg-green-200 text-green-800"
-                  : "bg-red-200 text-red-800"
-              }`}
-            >
-              {post.published ? "Published" : "Unpublished"}
-            </span>
-          </div>
-          <p className="text-xl text-gray-700 mb-2">
-            Comments: {post.comments.length}
-          </p>
-          <p className="text-lg text-gray-500">
-            Created at: {new Date(post.createdAt).toLocaleDateString()}
-            {" , "}
-            {new Date(post.createdAt).toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </p>
-          <button
-            className="mt-4 px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 transition duration-300"
-            onClick={(e) => handleDelete(post.id, e)}
+    <div className="container mx-auto p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.map((post) => (
+          <div
+            key={post.id}
+            className="bg-slate-300 shadow-lg hover:shadow-xl transition-shadow duration-300 p-4 rounded-lg cursor-pointer"
+            onClick={() => handleDivCick(post)}
           >
-            Delete
-          </button>
-        </div>
-      ))}
+            <div className="flex justify-between items-start mb-2">
+              <p className="font-bold text-3xl">{post.title}</p>
+              <span
+                className={`inline-block px-2 py-1 text-sm font-semibold rounded-md ${
+                  post.published
+                    ? "bg-green-200 text-green-800"
+                    : "bg-red-200 text-red-800"
+                }`}
+              >
+                {post.published ? "Published" : "Unpublished"}
+              </span>
+            </div>
+            <p className="text-xl text-gray-700 mb-2">
+              Comments: {post.comments.length}
+            </p>
+            <p className="text-lg text-gray-500">
+              Created at: {new Date(post.createdAt).toLocaleDateString()}
+              {" , "}
+              {new Date(post.createdAt).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </p>
+            <button
+              className="mt-4 px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 transition duration-300"
+              onClick={(e) => handleDelete(post.id, e)}
+            >
+              Delete
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
