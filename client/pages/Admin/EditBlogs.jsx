@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
+import api from "../../axios";
 
 function EditBlogs() {
   const location = useLocation();
@@ -24,9 +25,20 @@ function EditBlogs() {
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleContentChange = (content) => setContent(content);
 
-  const handleSave = async () => {
-    console.log("Saving changes:", { title, content });
-    setPost({ ...post, title, content });
+  const handleSave = async (postId) => {
+    try {
+      await api.patch(`/admin/posts/${postId}/update`, {
+        title,
+        content,
+      });
+
+      navigate("/admin/articles");
+    } catch (error) {
+      console.error(
+        "Error editing post:",
+        error.response?.data || error.message
+      );
+    }
   };
 
   const handleDeleteComment = async (commentId) => {
@@ -109,7 +121,7 @@ function EditBlogs() {
 
         <div className="flex items-center space-x-4">
           <button
-            onClick={handleSave}
+            onClick={() => handleSave(post.id)}
             className="bg-yellow-300 hover:bg-yellow-400 w-auto text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-2xl mt-1"
           >
             Save Changes

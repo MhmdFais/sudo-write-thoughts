@@ -191,14 +191,37 @@ const deletePost = async (req, res) => {
       return deletedPost;
     });
 
-    res
-      .status(200)
-      .json({
-        message: "Post and associated comments deleted successfully",
-        deletedPost: deletePostWithComments,
-      });
+    res.status(200).json({
+      message: "Post and associated comments deleted successfully",
+      deletedPost: deletePostWithComments,
+    });
   } catch (error) {
     console.error("Error deleting post:", error);
+    res.status(500).json({ message: "Failed to delete post and comments" });
+  }
+};
+
+const updatePost = async (req, res) => {
+  try {
+    const postId = parseInt(req.params.postId);
+    const { title, content } = req.body;
+
+    const updatedPost = await prisma.post.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        title: title,
+        content: content,
+      },
+    });
+
+    res.status(200).json({
+      message: "Post updated successfully",
+      updatedPost,
+    });
+  } catch (error) {
+    console.error("Error updating post:", error);
     res.status(500).json({ message: "Failed to delete post and comments" });
   }
 };
@@ -210,4 +233,5 @@ module.exports = {
   changePublishStatus,
   changeUnPublishStatus,
   deletePost,
+  updatePost,
 };
