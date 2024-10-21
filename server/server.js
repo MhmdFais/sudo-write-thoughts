@@ -17,8 +17,8 @@ const prisma = new PrismaClient();
 const app = express();
 
 const allowedOrigins = [
-  process.env.CORS_ORIGIN_FRONT_END,
-  process.env.CORS_ORIGIN_BACK_END,
+  "https://sudo-write-thoughts.vercel.app",
+  "https://sudo-write-thoughts-production.up.railway.app",
 ];
 
 const corsOptions = {
