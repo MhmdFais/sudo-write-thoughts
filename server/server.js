@@ -18,7 +18,7 @@ const app = express();
 
 const corsOptions = {
   //origin: process.env.CORS_ORIGIN || "http://localhost:5173",
-  origin: process.env.CORS_ORIGIN,
+  origin: "https://sudo-write-thoughts.vercel.app/",
   methods: "GET,POST,PUT,DELETE,PATCH",
 };
 
