@@ -16,9 +16,19 @@ const adminRoute = require("./routes/adminRoute");
 const prisma = new PrismaClient();
 const app = express();
 
+const allowedOrigins = [
+  process.env.CORS_ORIGIN_FRONT_END,
+  process.env.CORS_ORIGIN_BACK_END,
+];
+
 const corsOptions = {
-  //origin: process.env.CORS_ORIGIN || "http://localhost:5173",
-  origin: "https://sudo-write-thoughts.vercel.app/",
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: "GET,POST,PUT,DELETE,PATCH",
 };
 
