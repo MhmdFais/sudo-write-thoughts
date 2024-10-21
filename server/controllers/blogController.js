@@ -64,13 +64,17 @@ const postComment = async (req, res) => {
       return res.status(400).json({ message: "Comment content is required" });
     }
 
-    await prisma.comment.create({
+    console.log("Now in post comment back-end");
+
+    const newComment = await prisma.comment.create({
       data: {
         content: content,
         postId: postId,
         userId: userId,
       },
     });
+
+    console.log(newComment);
 
     return res
       .status(201)

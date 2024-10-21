@@ -35,7 +35,7 @@ app.use("/refresh-token", refreshTokenRoute);
 app.use("/", homeRoute);
 app.use("/register", registerRoute);
 
-app.use("/post/:id", blogRoute);
+app.use("/post", blogRoute);
 
 app.use("/admin", adminRoute);
 

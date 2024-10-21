@@ -41,12 +41,21 @@ function EditBlogs() {
     }
   };
 
-  const handleDeleteComment = async (commentId) => {
-    console.log("Deleting comment:", commentId);
-    setPost({
-      ...post,
-      comments: post.comments.filter((comment) => comment.id !== commentId),
-    });
+  const handleDeleteComment = async (commentId, postId) => {
+    try {
+      await api.delete(`/admin/posts/${postId}/${commentId}/delete`);
+      setPost((prevPost) => ({
+        ...prevPost,
+        comments: prevPost.comments.filter(
+          (comment) => comment.id !== commentId
+        ),
+      }));
+    } catch (error) {
+      console.error(
+        "Error deleting comment:",
+        error.response?.data || error.message
+      );
+    }
   };
 
   return (
@@ -128,7 +137,7 @@ function EditBlogs() {
           </button>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-8 pb-6">
           <h2 className="text-4xl font-bold mb-4 text-slate-300">Comments</h2>
           {post.comments.length === 0 ? (
             <p className="text-2xl text-slate-300">No comments yet.</p>
@@ -140,14 +149,16 @@ function EditBlogs() {
                   className="bg-gray-800 p-4 rounded flex justify-between items-start"
                 >
                   <div>
-                    <p className="font-bold">{comment.author}</p>
+                    <p className="text-xl text-gray-400">{comment.author}</p>
                     <p className="text-sm text-gray-400">
                       {new Date(comment.createdAt).toLocaleString()}
                     </p>
-                    <p className="mt-2">{comment.content}</p>
+                    <p className="mt-2 text-2xl text-slate-300">
+                      {comment.content}
+                    </p>
                   </div>
                   <button
-                    onClick={() => handleDeleteComment(comment.id)}
+                    onClick={() => handleDeleteComment(comment.id, post.id)}
                     className="text-red-500 hover:text-red-700"
                   >
                     Delete

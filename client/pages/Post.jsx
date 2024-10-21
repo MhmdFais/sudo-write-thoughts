@@ -9,7 +9,7 @@ function Post() {
   const post = location.state?.post;
   const navigate = useNavigate();
 
-  const [newComment, setNewComment] = useState("");
+  const [content, setContent] = useState("");
   const [comments, setComments] = useState(post?.comments || []);
 
   const API_KEY = import.meta.env.VITE_MCE_API_KEY;
@@ -20,23 +20,29 @@ function Post() {
     }
   }, [post, navigate]);
 
-  const handleCommentSubmit = async (e) => {
+  const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
-    if (!newComment.trim()) {
+    if (!content.trim()) {
       return;
     }
 
     try {
-      const response = await api.post(`/posts/${post.id}/comment`, {
-        content: newComment,
+      const response = await api.post(`/post/${postId}/comment`, {
+        content,
       });
-      setComments([...comments, response.data]);
-      setNewComment("");
+      setComments([...comments, response.data.comment]);
+      setContent("");
     } catch (error) {
-      console.error(
-        "Error adding comment:",
-        error.response?.data || error.message
-      );
+      console.error("Error adding comment:", error);
+      if (error.response) {
+        console.error("Response data:", error.response.data);
+        console.error("Response status:", error.response.status);
+        console.error("Response headers:", error.response.headers);
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+      } else {
+        console.error("Error message:", error.message);
+      }
     }
   };
 
@@ -77,7 +83,7 @@ function Post() {
               toolbar: false,
               readonly: true,
               height: 400,
-              content_css: false, // Remove TinyMCE default styles
+              //content_css: false, // Remove TinyMCE default styles
             }}
           />
         </div>
@@ -93,15 +99,15 @@ function Post() {
                 key={comment.id}
                 className="bg-gray-800 p-6 mt-4 rounded-lg shadow-md"
               >
-                <p className="text-lg text-slate-100 mb-2">{comment.content}</p>
-                <p className="text-sm text-gray-400">
-                  Commented by:{" "}
-                  <span className="font-semibold">{comment.author}</span> on{" "}
-                  {new Date(comment.createdAt).toLocaleDateString()} at{" "}
-                  {new Date(comment.createdAt).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                <div className="flex items-center justify-start space-x-2">
+                  <p className="font-xl text-slate-300">{comment.author}</p>
+                  <span className="text-slate-400"> {" - "} </span>
+                  <p className="text-slate-400">
+                    {new Date(comment.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+                <p className="text-2xl text-slate-300 mb-2">
+                  {comment.content}
                 </p>
               </div>
             ))
@@ -113,17 +119,17 @@ function Post() {
           <h3 className="text-2xl font-bold text-slate-200 mb-4">
             Add a Comment
           </h3>
-          <form onSubmit={handleCommentSubmit}>
+          <form onSubmit={(e) => handleCommentSubmit(e, post.id)}>
             <textarea
-              className="w-full p-4 border border-gray-500 rounded-lg bg-gray-800 text-slate-100"
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
+              className="w-full p-4 border border-gray-500 rounded-lg bg-gray-800 text-slate-100 text-2xl"
+              //value={content}
+              onChange={(e) => setContent(e.target.value)}
               placeholder="Write your comment here..."
               rows="5"
             />
             <button
               type="submit"
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg mt-4 hover:bg-blue-500 transition-colors duration-200"
+              className="bg-yellow-300 text-black px-6 py-2 rounded-lg mt-4 hover:bg-yellow-400 transition-colors duration-200 mb-4"
             >
               Submit Comment
             </button>

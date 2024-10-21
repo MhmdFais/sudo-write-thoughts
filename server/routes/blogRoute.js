@@ -9,7 +9,7 @@ const attachUser = require("../config/auth");
 blogRoute = express.Router();
 
 blogRoute.get(
-  "/",
+  "/:id",
   (req, res, next) => {
     passport.authenticate("jwt", { session: false }, (err, user) => {
       if (err) {
@@ -23,7 +23,7 @@ blogRoute.get(
 );
 
 blogRoute.post(
-  "/comment",
+  "/:id/comment",
   passport.authenticate("jwt", { session: false }),
   attachUser,
   postComment

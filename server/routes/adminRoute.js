@@ -7,6 +7,7 @@ const {
   changeUnPublishStatus,
   deletePost,
   updatePost,
+  delteComment,
 } = require("../controllers/admin/dashBoard");
 const attachUser = require("../config/auth");
 
@@ -23,5 +24,7 @@ adminRoute.patch("/posts/:postId/publish", attachUser, changeUnPublishStatus);
 adminRoute.delete("/posts/:postId/delete", attachUser, deletePost);
 
 adminRoute.patch("/posts/:postId/update", attachUser, updatePost);
+
+adminRoute.delete("/posts/:postId/:commentId/delete", attachUser, delteComment);
 
 module.exports = adminRoute;

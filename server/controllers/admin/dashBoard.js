@@ -226,6 +226,38 @@ const updatePost = async (req, res) => {
   }
 };
 
+const delteComment = async (req, res) => {
+  try {
+    const commentId = parseInt(req.params.commentId);
+
+    // Check if the comment exists
+    const comment = await prisma.comment.findUnique({
+      where: { id: commentId },
+    });
+
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    // Delete the comment
+    const deletedComment = await prisma.comment.delete({
+      where: { id: commentId },
+    });
+
+    res.status(200).json({
+      message: "Comment successfully deleted",
+      deletedComment: deletedComment,
+    });
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    if (error.code === "P2025") {
+      res.status(404).json({ message: "Comment not found or already deleted" });
+    } else {
+      res.status(500).json({ message: "Failed to delete comment" });
+    }
+  }
+};
+
 module.exports = {
   getBlogs,
   getFilteredBlogs,
@@ -234,4 +266,5 @@ module.exports = {
   changeUnPublishStatus,
   deletePost,
   updatePost,
+  delteComment,
 };
