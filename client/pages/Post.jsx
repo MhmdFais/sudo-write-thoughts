@@ -11,6 +11,7 @@ function Post() {
 
   const [content, setContent] = useState("");
   const [comments, setComments] = useState(post?.comments || []);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const API_KEY = import.meta.env.VITE_MCE_API_KEY;
 
@@ -18,6 +19,9 @@ function Post() {
     if (!post) {
       navigate("/");
     }
+
+    const accessToken = localStorage.getItem("accessToken");
+    setIsLoggedIn(!!accessToken);
   }, [post, navigate]);
 
   const handleCommentSubmit = async (e, postId) => {
@@ -34,15 +38,6 @@ function Post() {
       setContent("");
     } catch (error) {
       console.error("Error adding comment:", error);
-      if (error.response) {
-        console.error("Response data:", error.response.data);
-        console.error("Response status:", error.response.status);
-        console.error("Response headers:", error.response.headers);
-      } else if (error.request) {
-        console.error("No response received:", error.request);
-      } else {
-        console.error("Error message:", error.message);
-      }
     }
   };
 
@@ -83,7 +78,6 @@ function Post() {
               toolbar: false,
               readonly: true,
               height: 400,
-              //content_css: false, // Remove TinyMCE default styles
             }}
           />
         </div>
@@ -119,21 +113,33 @@ function Post() {
           <h3 className="text-2xl font-bold text-slate-200 mb-4">
             Add a Comment
           </h3>
-          <form onSubmit={(e) => handleCommentSubmit(e, post.id)}>
-            <textarea
-              className="w-full p-4 border border-gray-500 rounded-lg bg-gray-800 text-slate-100 text-2xl"
-              //value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Write your comment here..."
-              rows="5"
-            />
-            <button
-              type="submit"
-              className="bg-yellow-300 text-black px-6 py-2 rounded-lg mt-4 hover:bg-yellow-400 transition-colors duration-200 mb-4"
-            >
-              Submit Comment
-            </button>
-          </form>
+
+          {/* Check if the user is logged in */}
+          {isLoggedIn ? (
+            <form onSubmit={(e) => handleCommentSubmit(e, post.id)}>
+              <textarea
+                className="w-full p-4 border border-gray-500 rounded-lg bg-gray-800 text-slate-100 text-2xl"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Write your comment here..."
+                rows="5"
+              />
+              <button
+                type="submit"
+                className="bg-yellow-300 text-black px-6 py-2 rounded-lg mt-4 hover:bg-yellow-400 transition-colors duration-200 mb-4"
+              >
+                Submit Comment
+              </button>
+            </form>
+          ) : (
+            <p className="text-xl text-yellow-300 mb-4">
+              Please{" "}
+              <a href="/login" className="underline">
+                login
+              </a>{" "}
+              to post a comment.
+            </p>
+          )}
         </div>
       </div>
     </div>
