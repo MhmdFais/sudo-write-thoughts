@@ -9,6 +9,8 @@ The platform includes a React frontend and an Express backend with the following
 
 # Live Preview
 
+Click [Here](https://sudo-write-thoughts.vercel.app/)
+
 # Screenshots
 
 ![image](https://github.com/user-attachments/assets/5a550b0e-2d0e-4b18-b8d3-7fd190548757)
@@ -34,7 +36,6 @@ The platform includes a React frontend and an Express backend with the following
 ![image](https://github.com/user-attachments/assets/a8d45791-bd8b-4d00-9593-14db6a802892)
 
 ![image](https://github.com/user-attachments/assets/a2d05c87-aa14-405d-b5ef-3473ce8ed552)
-
 
 # Key Features
 
