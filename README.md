@@ -11,6 +11,31 @@ The platform includes a React frontend and an Express backend with the following
 
 # Screenshots
 
+![image](https://github.com/user-attachments/assets/5a550b0e-2d0e-4b18-b8d3-7fd190548757)
+
+![image](https://github.com/user-attachments/assets/eaa58161-0335-495d-8420-1391fbf9ea85)
+
+![image](https://github.com/user-attachments/assets/e4b5daf7-c13f-4a26-87d3-bbf4f3cafe6c)
+
+![image](https://github.com/user-attachments/assets/3814ab77-5630-47bb-ba97-7bd7af2eb4c8)
+
+![image](https://github.com/user-attachments/assets/7494fc95-3b3d-441f-9795-c4a3829fbf45)
+
+![image](https://github.com/user-attachments/assets/cda97272-628c-4a2f-a637-1ccf296f256d)
+
+![image](https://github.com/user-attachments/assets/139e7a93-ce41-4c1f-9049-3ee25afb4633)
+
+![image](https://github.com/user-attachments/assets/042f9a40-be66-45c8-9d1b-09a5f2566293)
+
+![image](https://github.com/user-attachments/assets/d8fc5296-00c0-44ff-9a63-b0c99acdfc99)
+
+![image](https://github.com/user-attachments/assets/3e257c65-acc0-489c-9716-4d02875ce05c)
+
+![image](https://github.com/user-attachments/assets/a8d45791-bd8b-4d00-9593-14db6a802892)
+
+![image](https://github.com/user-attachments/assets/a2d05c87-aa14-405d-b5ef-3473ce8ed552)
+
+
 # Key Features
 
 - User Authentication: Only logged-in users can comment or post articles.
